@@ -1,58 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* MIND LIST Design System - All colors, gradients, fonts, etc defined here */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    /* Main app background - light gray with subtle texture */
+    --background: 210 20% 98%;
     --foreground: 222.2 84% 4.9%;
 
+    /* Card backgrounds */
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
+    /* Popover styles */
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary brand colors - Deep blue for header */
+    --primary: 220 91% 25%;  /* #1E3A8A equivalent in HSL */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary colors - Light blue for active states */
+    --secondary: 214 100% 87%;  /* #BFDBFE equivalent in HSL */
+    --secondary-foreground: 220 91% 25%;
 
+    /* Muted colors for backgrounds */
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent colors */
+    --accent: 214 100% 87%;
+    --accent-foreground: 220 91% 25%;
 
+    /* Priority colors */
+    --priority-urgent: 0 84.2% 60.2%;  /* #EF4444 equivalent */
+    --priority-important: 25 95% 53%;  /* #F97316 equivalent */
+
+    /* Task completion green */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    /* Destructive colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
+    /* Border and input styles */
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 220 91% 25%;
 
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
+    /* Sidebar colors */
+    --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
+    --sidebar-primary: 220 91% 25%;
+    --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Grid pattern for sketchy feel */
+    --grid-pattern: radial-gradient(circle, hsl(220 91% 25% / 0.05) 1px, transparent 1px);
+
+    /* Border radius */
+    --radius: 0.5rem;
+    --radius-lg: 0.75rem;
   }
 
   .dark {
@@ -100,6 +115,92 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
+    background-image: var(--grid-pattern);
+    background-size: 20px 20px;
+  }
+
+  /* Sketchy handwritten elements */
+  .sketchy {
+    @apply font-caveat;
+  }
+
+  /* Grid background for main content */
+  .grid-background {
+    background-image: var(--grid-pattern);
+    background-size: 20px 20px;
+  }
+}
+
+@layer components {
+  /* Custom button variants for MIND LIST */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+
+  .btn-secondary {
+    @apply border border-primary text-primary hover:bg-secondary/50 px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+
+  .btn-pill {
+    @apply px-3 py-1.5 rounded-full text-sm font-medium transition-colors;
+  }
+
+  .btn-pill-active {
+    @apply bg-secondary text-secondary-foreground;
+  }
+
+  .btn-pill-inactive {
+    @apply bg-background text-muted-foreground hover:bg-muted;
+  }
+
+  /* Task priority indicators */
+  .priority-urgent {
+    @apply text-priority-urgent;
+  }
+
+  .priority-important {
+    @apply text-priority-important;
+  }
+
+  /* Task completion styles */
+  .task-completed {
+    @apply line-through text-muted-foreground;
+  }
+
+  /* List item styles */
+  .list-item {
+    @apply p-3 rounded-lg border hover:shadow-sm transition-all duration-200 cursor-pointer;
+  }
+
+  .list-item-active {
+    @apply bg-secondary border-secondary-foreground/20;
+  }
+
+  /* Sidebar section styles */
+  .sidebar-section {
+    @apply mb-6;
+  }
+
+  .sidebar-section-title {
+    @apply text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3;
+  }
+
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground));
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
   }
 }
