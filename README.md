@@ -7,11 +7,11 @@ How to install and run your project:
 npm install
 npm start
 🔗 Deployed Web URL or APK file
-✍️ 
+✍️ https://vibe-list-planner.vercel.app/
 
 🎥 Demo Video
 Demo video link (≤ 2 minutes):
-✍️ [Paste your video link here]
+✍️ [[Paste your video link here]](https://youtu.be/w3-l8LHa84w)
 
 
 💻 Project Introduction
