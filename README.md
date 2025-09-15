@@ -11,7 +11,7 @@ npm start
 
 🎥 Demo Video
 Demo video link (≤ 2 minutes):
-✍️ [[Paste your video link here]](https://youtu.be/w3-l8LHa84w)
+✍️ https://youtu.be/w3-l8LHa84w
 
 
 💻 Project Introduction
