@@ -1,7 +1,15 @@
-import Layout from '../components/layout/Layout';
+import React from 'react';
+import { AppProvider } from '@/contexts/AppContext';
+import { AppLayout } from '@/components/layout/AppLayout';
+import OnboardingFlow from '@/components/onboarding/OnboardingFlow';
 
 const Index = () => {
-  return <Layout />;
+  return (
+    <AppProvider>
+      <AppLayout />
+      <OnboardingFlow />
+    </AppProvider>
+  );
 };
 
 export default Index;

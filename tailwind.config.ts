@@ -47,14 +47,8 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        success: {
-          DEFAULT: "hsl(var(--success))",
-          foreground: "hsl(var(--success-foreground))",
-        },
-        "priority-urgent": "hsl(var(--priority-urgent))",
-        "priority-important": "hsl(var(--priority-important))",
         sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
+          DEFAULT: "hsl(var(--sidebar-bg))",
           foreground: "hsl(var(--sidebar-foreground))",
           primary: "hsl(var(--sidebar-primary))",
           "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
@@ -63,10 +57,17 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "mind-list": {
+          "primary-blue": "hsl(var(--primary-blue-dark))",
+          "primary-blue-light": "hsl(var(--primary-blue-light))",
+          "accent-blue": "hsl(var(--accent-blue))",
+          "priority-important": "hsl(var(--priority-important))",
+          "priority-urgent": "hsl(var(--priority-urgent))",
+          "priority-normal": "hsl(var(--priority-normal))",
+        },
       },
       fontFamily: {
-        'inter': ['Inter', 'sans-serif'],
-        'caveat': ['Caveat', 'cursive'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -97,5 +98,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-scrollbar")],
 } satisfies Config;

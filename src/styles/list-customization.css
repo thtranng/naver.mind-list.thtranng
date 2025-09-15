@@ -1,0 +1,101 @@
+/* CSS Variables for Dynamic List Styling */
+
+.list-item {
+  /* CSS custom properties for dynamic theming */
+  --list-color: #3B82F6; /* Default blue color */
+}
+
+.list-item .list-item-icon {
+  color: var(--list-color) !important;
+}
+
+.list-item.active {
+  background-color: color-mix(in srgb, var(--list-color) 10%, transparent) !important;
+  border-left: 3px solid var(--list-color);
+}
+
+.list-item.active .list-item-icon {
+  color: var(--list-color) !important;
+}
+
+/* Hover effects with dynamic colors */
+.list-item:hover:not(.active) {
+  background-color: color-mix(in srgb, var(--list-color) 5%, transparent);
+}
+
+/* For browsers that don't support color-mix, fallback */
+@supports not (background-color: color-mix(in srgb, var(--list-color) 10%, transparent)) {
+  .list-item.active {
+    background-color: rgba(59, 130, 246, 0.1); /* Fallback blue */
+  }
+  
+  .list-item:hover:not(.active) {
+    background-color: rgba(59, 130, 246, 0.05); /* Fallback blue */
+  }
+}
+
+/* Customizer popover styling */
+.list-customizer-popover {
+  z-index: 1000;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon grid styling */
+.icon-grid {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.icon-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.icon-grid::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.icon-grid::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.icon-grid::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Color picker button styling */
+.color-preview-button {
+  transition: all 0.2s ease;
+}
+
+.color-preview-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for icon selection */
+.icon-button-selected {
+  animation: iconSelect 0.2s ease-out;
+}
+
+@keyframes iconSelect {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Smooth transitions for all list items */
+.list-item {
+  transition: all 0.2s ease;
+}
+
+.list-item-icon {
+  transition: color 0.2s ease;
+}

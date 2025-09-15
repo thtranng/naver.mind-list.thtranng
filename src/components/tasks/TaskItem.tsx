@@ -1,90 +1,165 @@
-import React from 'react';
-import { Flag, AlertTriangle, RotateCcw, CheckCircle } from 'lucide-react';
-import { Task } from '../../types';
-import { useAppStore } from '../../store/appStore';
-import { format } from 'date-fns';
+import React, { useState } from 'react';
+import { Flag, AlertTriangle, RotateCcw } from 'lucide-react';
+import { Task } from '@/types';
+import { useApp } from '@/contexts/AppContext';
+import { AddTaskModal } from './AddTaskModal';
+import { formatTaskDate, getDueDateTextClass } from '@/lib/dateUtils';
+
+// Helper function to get repeat description
+const getRepeatDescription = (repeat: string): string => {
+  switch (repeat) {
+    case 'hourly': return 'Hàng giờ';
+    case 'daily': return 'Hàng ngày';
+    case 'weekly': return 'Hàng tuần';
+    case 'monthly': return 'Hàng tháng';
+    case 'yearly': return 'Hàng năm';
+    case 'weekdays': return 'Ngày làm việc';
+    case 'weekends': return 'Cuối tuần';
+    default: return 'Lặp lại';
+  }
+};
 
 interface TaskItemProps {
   task: Task;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
-  const { toggleTaskCompletion } = useAppStore();
+export function TaskItem({ task }: TaskItemProps) {
+  const { dispatch } = useApp();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  const formatTaskDate = (date: Date) => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-
-    if (date.toDateString() === today.toDateString()) {
-      return `Today, ${format(date, 'HH:mm')}`;
-    } else if (date.toDateString() === tomorrow.toDateString()) {
-      return `Tomorrow, ${format(date, 'HH:mm')}`;
-    } else {
-      return format(date, 'dd/MM/yyyy, HH:mm');
-    }
+  const handleToggleComplete = () => {
+    dispatch({
+      type: 'UPDATE_TASK',
+      payload: {
+        id: task.id,
+        updates: { isCompleted: !task.isCompleted }
+      }
+    });
   };
 
-  const getPriorityIcon = () => {
-    if (task.priority === 'urgent') {
-      return <AlertTriangle className="w-4 h-4 text-priority-urgent" />;
-    } else if (task.priority === 'important') {
-      return <Flag className="w-4 h-4 text-priority-important" />;
+  // Calculate progress based on subtasks
+  const calculateProgress = () => {
+    if (!task.subTasks || task.subTasks.length === 0) {
+      return task.isCompleted ? 100 : 0;
     }
-    return null;
+    const completedSubtasks = task.subTasks.filter(subtask => subtask.isCompleted).length;
+    return Math.round((completedSubtasks / task.subTasks.length) * 100);
   };
 
-  return (
-    <div className="bg-card border border-border rounded-lg p-4 hover:shadow-sm transition-shadow">
-      <div className="flex items-start space-x-4">
-        {/* Checkbox */}
-        <button
-          onClick={() => toggleTaskCompletion(task.id)}
-          className="mt-1 flex-shrink-0"
-        >
-          {task.isCompleted ? (
-            <CheckCircle className="w-5 h-5 text-success" />
-          ) : (
-            <div className="w-5 h-5 border-2 border-border rounded-full hover:border-primary transition-colors"></div>
-          )}
-        </button>
+  const progress = calculateProgress();
 
-        {/* Task Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <h3 className={`font-medium ${task.isCompleted ? 'task-completed' : ''}`}>
-                {task.title}
-              </h3>
-              
-              {(task.dueDate || task.repeat) && (
-                <div className="flex items-center space-x-2 mt-1 text-sm text-muted-foreground">
-                  {task.dueDate && (
-                    <span>{formatTaskDate(task.dueDate)}</span>
-                  )}
-                  {task.repeat && (
-                    <div className="flex items-center space-x-1">
-                      <RotateCcw className="w-3 h-3" />
-                      <span>every {task.repeat.replace('ly', '')}</span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+  // Progress circle component
+  const ProgressCircle = ({ progress }: { progress: number }) => {
+    const radius = 12;
+    const circumference = 2 * Math.PI * radius;
+    const strokeDasharray = circumference;
+    const strokeDashoffset = circumference - (progress / 100) * circumference;
 
-            {/* Priority indicator */}
-            <div className="flex-shrink-0 ml-4">
-              {getPriorityIcon()}
-            </div>
-          </div>
-
-          {task.note && (
-            <p className="text-sm text-muted-foreground mt-2">{task.note}</p>
-          )}
+    return (
+      <div className="relative w-7 h-7">
+        <svg className="w-7 h-7 transform -rotate-90" viewBox="0 0 28 28">
+          {/* Background circle */}
+          <circle
+            cx="14"
+            cy="14"
+            r={radius}
+            stroke="#e5e7eb"
+            strokeWidth="2"
+            fill="none"
+          />
+          {/* Progress circle */}
+          <circle
+            cx="14"
+            cy="14"
+            r={radius}
+            stroke={progress === 100 ? '#10b981' : '#3b82f6'}
+            strokeWidth="2"
+            fill="none"
+            strokeDasharray={strokeDasharray}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            className="transition-all duration-300 ease-in-out"
+          />
+        </svg>
+        {/* Progress text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-xs font-medium text-gray-600">
+            {progress}%
+          </span>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default TaskItem;
+  // Remove the old formatDate function as we're using the one from dateUtils
+
+  return (
+    <>
+      <div className={`
+        mind-list-task-item flex items-center gap-3 p-3
+        ${task.isCompleted ? 'opacity-60' : ''}
+      `}>
+      <button
+        onClick={handleToggleComplete}
+        className={`
+          w-6 h-6 rounded-full border-2 flex items-center justify-center
+          ${task.isCompleted 
+            ? 'bg-mind-list-primary-blue border-mind-list-primary-blue' 
+            : 'border-gray-300 hover:border-mind-list-primary-blue'
+          }
+        `}
+      >
+        {task.isCompleted && (
+          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+          </svg>
+        )}
+      </button>
+
+      <div 
+        className="flex-1 cursor-pointer"
+        onClick={() => setIsEditModalOpen(true)}
+      >
+        <div className={`
+          font-medium ${task.isCompleted ? 'line-through text-gray-500' : 'text-gray-900'}
+        `}>
+          {task.title}
+        </div>
+        {task.dueDate && (
+          <div className={`text-sm mt-1 flex items-center gap-2 ${getDueDateTextClass(task.dueDate, task.isCompleted)}`}>
+            <span>{formatTaskDate(task.dueDate)}</span>
+            {(task.repeat && task.repeat !== 'never') || (task.timeSettings?.repeat && task.timeSettings.repeat !== 'never') ? (
+              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 rounded-full border border-blue-200">
+                <RotateCcw size={12} className="text-blue-600" />
+                <span className="text-xs text-blue-700 font-medium">
+                  {getRepeatDescription(task.repeat || task.timeSettings?.repeat || 'never')}
+                </span>
+              </div>
+            ) : null}
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center gap-3">
+        {task.priority === 'important' && (
+          <Flag size={16} className="mind-list-priority-important" />
+        )}
+        {task.priority === 'urgent' && (
+          <AlertTriangle size={16} className="mind-list-priority-urgent" />
+        )}
+        
+        {/* Progress Circle - only show if task has subtasks */}
+        {task.subTasks && task.subTasks.length > 0 ? (
+          <ProgressCircle progress={progress} />
+        ) : null}
+      </div>
+      </div>
+
+      <AddTaskModal 
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        task={task}
+      />
+    </>
+  );
+}

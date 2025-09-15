@@ -1,206 +1,469 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Caveat:wght@400;500;600;700&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* MIND LIST Design System - All colors, gradients, fonts, etc defined here */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Import Tailwind's base styles */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @layer base {
   :root {
-    /* Main app background - light gray with subtle texture */
-    --background: 210 20% 98%;
-    --foreground: 222.2 84% 4.9%;
-
-    /* Card backgrounds */
+    /* Core MIND LIST Colors */
+    --background: 0 0% 99.2%;
+    --foreground: 0 0% 13%;
+    
+    /* MIND LIST Brand Colors */
+    --primary-blue-dark: 218 65% 36%;
+    --primary-blue-light: 190 45% 75%;
+    --accent-blue: 213 70% 55%;
+    
+    /* Dynamic Gradient Colors for Header - User Customizable */
+    --theme-color-primary: 220 91% 35%; /* Dark Blue */
+    --theme-color-secondary: 270 91% 35%; /* Dark Purple */
+    
+    /* Legacy gradient variables for backward compatibility */
+    --gradient-primary: var(--theme-color-primary);
+    --gradient-secondary: var(--theme-color-secondary);
+    
+    /* Surface Colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    /* Popover styles */
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    /* Primary brand colors - Deep blue for header */
-    --primary: 220 91% 25%;  /* #1E3A8A equivalent in HSL */
-    --primary-foreground: 0 0% 100%;
-
-    /* Secondary colors - Light blue for active states */
-    --secondary: 214 100% 87%;  /* #BFDBFE equivalent in HSL */
-    --secondary-foreground: 220 91% 25%;
-
-    /* Muted colors for backgrounds */
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    /* Accent colors */
-    --accent: 214 100% 87%;
-    --accent-foreground: 220 91% 25%;
-
-    /* Priority colors */
-    --priority-urgent: 0 84.2% 60.2%;  /* #EF4444 equivalent */
-    --priority-important: 25 95% 53%;  /* #F97316 equivalent */
-
-    /* Task completion green */
+    --card-foreground: 0 0% 13%;
+    --sidebar-bg: 0 0% 100%;
+    --header-bg: 218 65% 36%;
+    
+    /* Interactive States */
+    --hover-bg: 210 40% 96%;
+    --active-bg: 190 45% 75%;
+    
+    /* Priority Colors */
+    --priority-important: 25 95% 65%;
+    --priority-urgent: 0 84% 60%;
+    --priority-normal: 210 11% 71%;
+    
+    /* Status Colors */
     --success: 142 76% 36%;
-    --success-foreground: 0 0% 100%;
+    --warning: 45 93% 47%;
+    --error: 0 84% 60%;
+    
+    /* Neutral Colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 218 65% 36%;
+    
+    /* Legacy mappings for shadcn compatibility */
+    --primary: 218 65% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 0 0% 13%;
+    --accent: 190 45% 75%;
+    --accent-foreground: 0 0% 13%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+    
+    --radius: 0.5rem;
 
-    /* Destructive colors */
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --sidebar-background: 0 0% 98%;
 
-    /* Border and input styles */
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 220 91% 25%;
-
-    /* Sidebar colors */
-    --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 220 91% 25%;
-    --sidebar-primary-foreground: 0 0% 100%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
     --sidebar-accent: 240 4.8% 95.9%;
+
     --sidebar-accent-foreground: 240 5.9% 10%;
+
     --sidebar-border: 220 13% 91%;
 
-    /* Grid pattern for sketchy feel */
-    --grid-pattern: radial-gradient(circle, hsl(220 91% 25% / 0.05) 1px, transparent 1px);
-
-    /* Border radius */
-    --radius: 0.5rem;
-    --radius-lg: 0.75rem;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Core Colors */
+    --background: 220 39% 11%;
+    --foreground: 0 0% 98%;
+    
+    /* MIND LIST Brand Colors */
+    --primary-blue-dark: 213 70% 55%;
+    --primary-blue-light: 190 45% 35%;
+    --accent-blue: 213 70% 65%;
+    
+    /* Dynamic Gradient Colors for Header - User Customizable */
+    --theme-color-primary: 220 91% 35%; /* Dark Blue */
+    --theme-color-secondary: 270 91% 35%; /* Dark Purple */
+    
+    /* Legacy gradient variables for backward compatibility */
+    --gradient-primary: var(--theme-color-primary);
+    --gradient-secondary: var(--theme-color-secondary);
+    
+    /* Surface Colors */
+    --card: 220 39% 11%;
+    --card-foreground: 0 0% 98%;
+    --sidebar-bg: 222 47% 7%;
+    --header-bg: 213 70% 55%;
+    
+    /* Interactive States */
+    --hover-bg: 215 28% 17%;
+    --active-bg: 190 45% 25%;
+    
+    /* Priority Colors (adjusted for dark theme) */
+    --priority-important: 25 95% 55%;
+    --priority-urgent: 0 84% 50%;
+    --priority-normal: 210 11% 61%;
+    
+    /* Status Colors */
+    --success: 142 76% 46%;
+    --warning: 45 93% 57%;
+    --error: 0 84% 50%;
+    
+    /* Neutral Colors */
+    --muted: 215 28% 17%;
+    --muted-foreground: 217 11% 65%;
+    --border: 215 28% 17%;
+    --input: 215 28% 17%;
+    --ring: 213 70% 55%;
+    
+    /* Legacy mappings */
+    --primary: 213 70% 55%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 215 28% 17%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 190 45% 35%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --popover: 220 39% 11%;
+    --popover-foreground: 0 0% 98%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
-    background-image: var(--grid-pattern);
-    background-size: 20px 20px;
-  }
-
-  /* Sketchy handwritten elements */
-  .sketchy {
-    @apply font-caveat;
-  }
-
-  /* Grid background for main content */
-  .grid-background {
-    background-image: var(--grid-pattern);
-    background-size: 20px 20px;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 }
 
 @layer components {
-  /* Custom button variants for MIND LIST */
-  .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-lg font-medium transition-colors;
+  /* MIND LIST Custom Components */
+  .mind-list-header {
+    background: linear-gradient(120deg, 
+      hsl(200, 100%, 10%),  /* Xanh đen */
+      hsl(220, 91%, 35%),   /* Xanh dương đậm */
+      hsl(270, 91%, 35%),   /* Tím đậm */
+      hsl(280, 100%, 10%)   /* Tím đen */
+    );
+    color: white;
+    border-bottom: 1px solid hsl(var(--border));
+    transition: background 0.5s ease-in-out;
+  }
+  
+  .mind-list-sidebar {
+    background-color: hsl(var(--sidebar-bg));
+    border-right: 1px solid hsl(var(--border));
+  }
+  
+  .mind-list-btn-primary {
+    background-color: hsl(var(--primary-blue-dark));
+    color: white;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .btn-secondary {
-    @apply border border-primary text-primary hover:bg-secondary/50 px-4 py-2 rounded-lg font-medium transition-colors;
+  .mind-list-btn-primary:hover {
+    background-color: hsl(var(--primary-blue-dark) / 0.9);
+  }
+  
+  .mind-list-btn-secondary {
+    background-color: white;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .btn-pill {
-    @apply px-3 py-1.5 rounded-full text-sm font-medium transition-colors;
+  .mind-list-btn-secondary:hover {
+    background-color: hsl(var(--hover-bg));
+  }
+  
+  .mind-list-active-pill {
+    background-color: hsl(var(--active-bg));
+    color: hsl(var(--foreground));
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+  
+  .mind-list-pill {
+    background-color: white;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    border-radius: 9999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
   }
 
-  .btn-pill-active {
-    @apply bg-secondary text-secondary-foreground;
+  .mind-list-pill:hover {
+    background-color: hsl(var(--hover-bg));
+  }
+  
+  .mind-list-task-item {
+    background-color: white;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    transition: color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .btn-pill-inactive {
-    @apply bg-background text-muted-foreground hover:bg-muted;
+  .mind-list-task-item:hover {
+    background-color: hsl(var(--hover-bg));
+  }
+  
+  .mind-list-priority-important {
+    color: hsl(var(--priority-important));
+  }
+  
+  .mind-list-priority-urgent {
+    color: hsl(var(--priority-urgent));
+  }
+  
+  .mind-list-primary-blue {
+    background-color: hsl(var(--primary-blue-dark));
+  }
+  
+  .mind-list-primary-blue-light {
+    background-color: hsl(var(--primary-blue-light));
   }
 
-  /* Task priority indicators */
-  .priority-urgent {
-    @apply text-priority-urgent;
+  /* Glitch Effect for Logo Text */
+  .glitch-text {
+    position: relative;
+    animation: glitch 3s infinite;
   }
 
-  .priority-important {
-    @apply text-priority-important;
+  .glitch-text::before,
+  .glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
   }
 
-  /* Task completion styles */
-  .task-completed {
-    @apply line-through text-muted-foreground;
+  .glitch-text::before {
+    animation: glitch-1 0.5s infinite;
+    color: #ff00ff;
+    z-index: -1;
   }
 
-  /* List item styles */
-  .list-item {
-    @apply p-3 rounded-lg border hover:shadow-sm transition-all duration-200 cursor-pointer;
+  .glitch-text::after {
+    animation: glitch-2 0.5s infinite;
+    color: #00ffff;
+    z-index: -2;
   }
 
-  .list-item-active {
-    @apply bg-secondary border-secondary-foreground/20;
+  @keyframes glitch {
+    0%, 90%, 100% {
+      transform: translate(0);
+    }
+    10% {
+      transform: translate(-1px, 1px);
+    }
+    20% {
+      transform: translate(1px, -1px);
+    }
+    30% {
+      transform: translate(-1px, -1px);
+    }
+    40% {
+      transform: translate(1px, 1px);
+    }
+    50% {
+      transform: translate(-1px, 1px);
+    }
+    60% {
+      transform: translate(1px, -1px);
+    }
+    70% {
+      transform: translate(-1px, -1px);
+    }
+    80% {
+      transform: translate(1px, 1px);
+    }
   }
 
-  /* Sidebar section styles */
-  .sidebar-section {
-    @apply mb-6;
+  @keyframes glitch-1 {
+    0%, 90%, 100% {
+      opacity: 0;
+      transform: translate(0);
+    }
+    10% {
+      opacity: 0.3;
+      transform: translate(-2px, 2px);
+    }
   }
 
-  .sidebar-section-title {
-    @apply text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3;
+  @keyframes glitch-2 {
+    0%, 90%, 100% {
+      opacity: 0;
+      transform: translate(0);
+    }
+    20% {
+      opacity: 0.3;
+      transform: translate(2px, -2px);
+    }
   }
 
-  /* Custom scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+  /* Limi Assistant Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.8); }
+  }
+  
+  @keyframes point {
+    0%, 100% { transform: translateX(0px); }
+    50% { transform: translateX(5px); }
+  }
+  
+  @keyframes talk {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-float-slow { animation: float-slow 4s ease-in-out infinite; }
+  .animate-spin-slow { animation: spin-slow 3s linear infinite; }
+  .animate-glow { animation: glow 2s ease-in-out infinite; }
+  .animate-point { animation: point 1s ease-in-out infinite; }
+  .animate-talk { animation: talk 0.5s ease-in-out infinite; }
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-400 { animation-delay: 0.4s; }
+  .animation-delay-600 { animation-delay: 0.6s; }
+
+  /* Talk Bubble Floating Animation */
+  @keyframes bubble-float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
+  .bubble-container {
+    animation: bubble-float 2s ease-in-out infinite;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground));
-    border-radius: 3px;
+  /* Limi animations */
+  .limi-float {
+    animation: float 3s ease-in-out infinite;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary));
+  .limi-float-slow {
+    animation: float-slow 4s ease-in-out infinite;
+  }
+
+  .limi-spin-slow {
+    animation: spin-slow 8s linear infinite;
+  }
+
+  .limi-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .limi-point {
+    animation: point 1s ease-in-out;
+  }
+
+  .limi-talk {
+    animation: talk 0.5s ease-in-out infinite alternate;
+  }
+
+  /* Spotlight Overlay */
+  .spotlight-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 998;
+    transition: all 0.3s ease-in-out;
+    pointer-events: auto;
+  }
+
+  .spotlight-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Spotlight Cut-out Effect */
+  .spotlight-cutout {
+    position: absolute;
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: 
+      0 0 0 4px rgba(59, 130, 246, 0.8),
+      0 0 0 9999px rgba(0, 0, 0, 0.7);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  /* Spotlight Animation */
+  @keyframes spotlight-pulse {
+    0%, 100% {
+      box-shadow: 
+        0 0 0 4px rgba(59, 130, 246, 0.8),
+        0 0 0 9999px rgba(0, 0, 0, 0.7);
+    }
+    50% {
+      box-shadow: 
+        0 0 0 8px rgba(59, 130, 246, 0.6),
+        0 0 0 9999px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .spotlight-cutout.animated {
+    animation: spotlight-pulse 2s infinite;
+  }
+
+  /* Highlighted Element */
+  .onboarding-spotlight-target {
+    position: relative;
+    z-index: 999;
+    pointer-events: auto;
   }
 }

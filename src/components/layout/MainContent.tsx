@@ -1,28 +1,37 @@
 import React from 'react';
-import { useAppStore } from '../../store/appStore';
-import ListView from '../views/ListView';
-import CalendarView from '../views/CalendarView';
-import AnalyticsView from '../views/AnalyticsView';
+import { ListView } from '../views/ListView';
+import { CalendarView } from '../views/CalendarView';
+import { AnalyticsView } from '../views/AnalyticsView';
+import { RecentlyEdited } from '../views/RecentlyEditedView';
+import { RecentlyDeleted } from '../views/RecentlyDeleted';
+import Settings from '../../pages/Settings';
+import { useApp } from '@/contexts/AppContext';
 
-const MainContent: React.FC = () => {
-  const { activeView } = useAppStore();
+export function MainContent() {
+  const { state } = useApp();
 
   const renderView = () => {
-    switch (activeView) {
+    switch (state.currentView) {
+      case 'list':
+        return <ListView />;
       case 'calendar':
         return <CalendarView />;
       case 'analytics':
         return <AnalyticsView />;
+      case 'settings':
+        return <Settings />;
+      case 'recently-edited':
+        return <RecentlyEdited />;
+      case 'recently-deleted':
+        return <RecentlyDeleted />;
       default:
         return <ListView />;
     }
   };
 
   return (
-    <main className="flex-1 overflow-y-auto grid-background">
+    <main className="flex-1 overflow-hidden">
       {renderView()}
     </main>
   );
-};
-
-export default MainContent;
+}
